@@ -1,0 +1,7 @@
+flask
+flask-login
+flask-cors
+flask-sqlalchemy
+openpyxl
+apscheduler
+

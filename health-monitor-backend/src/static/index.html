@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Health & Stress Monitor - Professional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: #3498db;
+        }
+
+        .menu-card h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .menu-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-sehat {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-perhatian {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-kritis {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-menu {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="loginScreen">
+            <div class="header">
+                <h1>🏥 Student Health Monitor</h1>
+                <p>Sistem Monitoring Kesehatan & Stress Siswa Professional</p>
+            </div>
+            
+            <div class="login-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Login</h2>
+                <div id="loginAlert"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="mainMenu" class="hidden">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            
+            <div class="header">
+                <h1>🏥 Dashboard Utama</h1>
+                <p>Selamat datang, <span id="welcomeUser"></span></p>
+            </div>
+
+            <!-- Global Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #27ae60;" id="healthyCount">0</div>
+                    <div class="stat-label">Siswa Sehat</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #f39c12;" id="attentionCount">0</div>
+                    <div class="stat-label">Perlu Perhatian</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #e74c3c;" id="criticalCount">0</div>
+                    <div class="stat-label">Kondisi Kritis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #3498db;" id="totalRecords">0</div>
+                    <div class="stat-label">Total Data</div>
+                </div>
+            </div>
+
+            <div class="main-menu">
+                <div class="menu-card" onclick="showMelonPinter()">
+                    <h3>👥 Melon Pinter</h3>
+                    <p>Dashboard untuk siswa umum dengan monitoring tanda vital, ekspresi, dan keluhan fisik</p>
+                </div>
+                
+                <div class="menu-card" onclick="showKangenAzi()">
+                    <h3>🏃 Kangen Azi</h3>
+                    <p>Dashboard untuk atlet siswa dengan analisis BMI dan rekomendasi diet</p>
+                </div>
+                
+                <div class="menu-card" onclick="showRecapitulation()">
+                    <h3>📊 Rekapitulasi Data</h3>
+                    <p>Lihat semua data siswa dan export ke Excel untuk analisis lebih lanjut</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Melon Pinter Dashboard -->
+        <div id="melonPinterDashboard" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← Kembali</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            
+            <div class="header">
+                <h1>👥 Melon Pinter Dashboard</h1>
+                <p>Monitoring Kesehatan Siswa Umum</p>
+            </div>
+
+            <div class="table-container">
+                <div id="melonAlert"></div>
+                <form id="melonForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div class="form-group">
+                            <label for="melonName">Nama Lengkap:</label>
+                            <input type="text" id="melonName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonGender">Jenis Kelamin:</label>
+                            <select id="melonGender" required>
+                                <option value="">Pilih...</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonAge">Usia:</label>
+                            <input type="number" id="melonAge" min="15" max="20" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonExpression">Ekspresi:</label>
+                            <select id="melonExpression" required>
+                                <option value="">Pilih...</option>
+                                <option value="Senang">Senang</option>
+                                <option value="Sedih">Sedih</option>
+                                <option value="Marah">Marah</option>
+                                <option value="Cemas">Cemas</option>
+                                <option value="Netral">Netral</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonHR">Heart Rate (bpm):</label>
+                            <input type="number" id="melonHR" min="40" max="200" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonRR">Respiration Rate (/min):</label>
+                            <input type="number" id="melonRR" min="10" max="40" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonTemp">Suhu Tubuh (&deg;C):</label>
+                            <input type="number" id="melonTemp" step="0.1" min="35" max="42" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="melonComplaints">Keluhan Fisik:</label>
+                            <textarea id="melonComplaints" rows="3" placeholder="Deskripsikan keluhan fisik..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Simpan Data Siswa</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Kangen Azi Dashboard -->
+        <div id="kangenAziDashboard" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← Kembali</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            
+            <div class="header">
+                <h1>🏃 Kangen Azi Dashboard</h1>
+                <p>Monitoring Performa Atlet Siswa</p>
+            </div>
+
+            <div class="table-container">
+                <div id="kangenAlert"></div>
+                <form id="kangenForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div class="form-group">
+                            <label for="kangenWeight">Berat Badan (kg):</label>
+                            <input type="number" id="kangenWeight" step="0.1" min="30" max="150" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kangenHeight">Tinggi Badan (cm):</label>
+                            <input type="number" id="kangenHeight" min="140" max="200" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kangenAge">Usia:</label>
+                            <input type="number" id="kangenAge" min="15" max="20" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kangenSport">Cabang Olahraga:</label>
+                            <select id="kangenSport" required>
+                                <option value="">Pilih...</option>
+                                <option value="Sepak Bola">Sepak Bola</option>
+                                <option value="Basket">Basket</option>
+                                <option value="Voli">Voli</option>
+                                <option value="Badminton">Badminton</option>
+                                <option value="Atletik">Atletik</option>
+                                <option value="Renang">Renang</option>
+                                <option value="Tenis Meja">Tenis Meja</option>
+                                <option value="Karate">Karate</option>
+                                <option value="Taekwondo">Taekwondo</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Hitung BMI & Simpan Data</button>
+                </form>
+
+                <div id="bmiResult" class="hidden" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px;">Hasil Analisis BMI</h3>
+                    <div id="bmiDetails"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recapitulation Dashboard -->
+        <div id="recapitulationDashboard" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← Kembali</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            
+            <div class="header">
+                <h1>📊 Rekapitulasi Data</h1>
+                <p>Data Lengkap Siswa & Export Excel</p>
+            </div>
+
+            <div class="table-container">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <button class="btn" onclick="downloadExcel()">📥 Download Excel</button>
+                    <button class="btn btn-secondary" onclick="autoExport()">📁 Export ke Folder</button>
+                    <button class="btn btn-secondary" onclick="refreshData()">🔄 Refresh Data</button>
+                </div>
+                
+                <div id="exportAlert"></div>
+
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-secondary" onclick="showMelonData()" id="melonDataBtn">👥 Data Melon Pinter</button>
+                    <button class="btn btn-secondary" onclick="showKangenData()" id="kangenDataBtn" style="margin-left: 10px;">🏃 Data Kangen Azi</button>
+                </div>
+
+                <div id="melonDataTable">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px;">Data Siswa Umum (Melon Pinter)</h3>
+                    <div style="overflow-x: auto;">
+                        <table id="melonTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Nama</th>
+                                    <th>Gender</th>
+                                    <th>Usia</th>
+                                    <th>Ekspresi</th>
+                                    <th>HR</th>
+                                    <th>RR</th>
+                                    <th>Suhu</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="melonTableBody">
+                                <tr>
+                                    <td colspan="10" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                                        Belum ada data siswa umum
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="kangenDataTable" class="hidden">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px;">Data Atlet Siswa (Kangen Azi)</h3>
+                    <div style="overflow-x: auto;">
+                        <table id="kangenTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Berat</th>
+                                    <th>Tinggi</th>
+                                    <th>Usia</th>
+                                    <th>Olahraga</th>
+                                    <th>BMI</th>
+                                    <th>Kategori</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kangenTableBody">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                                        Belum ada data atlet siswa
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = '/api';
+        
+        // Current user
+        let currentUser = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Melon Pinter form
+            document.getElementById('melonForm').addEventListener('submit', handleMelonSubmit);
+            
+            // Kangen Azi form
+            document.getElementById('kangenForm').addEventListener('submit', handleKangenSubmit);
+        }
+
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/auth/check`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.authenticated) {
+                    currentUser = data.user;
+                    showMainMenu();
+                } else {
+                    showLoginScreen();
+                }
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                showLoginScreen();
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentUser = data.user;
+                    showAlert('loginAlert', 'Login berhasil!', 'success');
+                    setTimeout(() => {
+                        showMainMenu();
+                    }, 1000);
+                } else {
+                    showAlert('loginAlert', data.error || 'Login gagal', 'error');
+                }
+            } catch (error) {
+                showAlert('loginAlert', 'Terjadi kesalahan saat login', 'error');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch(`${API_BASE}/auth/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+            
+            currentUser = null;
+            showLoginScreen();
+        }
+
+        async function handleMelonSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('melonName').value,
+                gender: document.getElementById('melonGender').value,
+                age: parseInt(document.getElementById('melonAge').value),
+                expression: document.getElementById('melonExpression').value,
+                heart_rate: parseInt(document.getElementById('melonHR').value),
+                respiration_rate: parseInt(document.getElementById('melonRR').value),
+                temperature: parseFloat(document.getElementById('melonTemp').value),
+                complaints: document.getElementById('melonComplaints').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/melon/data`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('melonAlert', 'Data berhasil disimpan!', 'success');
+                    document.getElementById('melonForm').reset();
+                } else {
+                    showAlert('melonAlert', data.error || 'Gagal menyimpan data', 'error');
+                }
+            } catch (error) {
+                showAlert('melonAlert', 'Terjadi kesalahan saat menyimpan data', 'error');
+            }
+        }
+
+        async function handleKangenSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                weight: parseFloat(document.getElementById('kangenWeight').value),
+                height: parseInt(document.getElementById('kangenHeight').value),
+                age: parseInt(document.getElementById('kangenAge').value),
+                sport: document.getElementById('kangenSport').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/kangen/data`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('kangenAlert', 'Data berhasil disimpan!', 'success');
+                    document.getElementById('kangenForm').reset();
+                    
+                    // Show BMI results
+                    displayBMIResults(data.data);
+                } else {
+                    showAlert('kangenAlert', data.error || 'Gagal menyimpan data', 'error');
+                }
+            } catch (error) {
+                showAlert('kangenAlert', 'Terjadi kesalahan saat menyimpan data', 'error');
+            }
+        }
+
+        function displayBMIResults(data) {
+            const resultDiv = document.getElementById('bmiResult');
+            const detailsDiv = document.getElementById('bmiDetails');
+            
+            detailsDiv.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <strong>BMI:</strong> ${data.bmi}
+                    </div>
+                    <div>
+                        <strong>Kategori:</strong> ${data.bmi_category}
+                    </div>
+                    <div>
+                        <strong>Status:</strong> ${data.bmi_status}
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Rekomendasi Diet:</strong>
+                    <p style="margin-top: 5px; line-height: 1.6;">${data.diet_recommendations}</p>
+                </div>
+            `;
+            
+            resultDiv.classList.remove('hidden');
+        }
+
+        async function loadStatistics() {
+            try {
+                const response = await fetch(`${API_BASE}/export/summary`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                // Update statistics (mock data for now)
+                document.getElementById('healthyCount').textContent = Math.floor(data.total_records * 0.68);
+                document.getElementById('attentionCount').textContent = Math.floor(data.total_records * 0.22);
+                document.getElementById('criticalCount').textContent = Math.floor(data.total_records * 0.07);
+                document.getElementById('totalRecords').textContent = data.total_records || 0;
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        async function loadMelonData() {
+            try {
+                const response = await fetch(`${API_BASE}/melon/data`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                const tbody = document.getElementById('melonTableBody');
+                
+                if (data.data && data.data.length > 0) {
+                    tbody.innerHTML = data.data.map(item => `
+                        <tr>
+                            <td>${new Date(item.timestamp).toLocaleString('id-ID')}</td>
+                            <td>${item.user_id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.gender}</td>
+                            <td>${item.age}</td>
+                            <td>${item.expression}</td>
+                            <td>${item.heart_rate}</td>
+                            <td>${item.respiration_rate}</td>
+                            <td>${item.temperature}&deg;C</td>
+                            <td><span class="status-badge ${getHealthStatus(item.warnings)}">${getHealthStatusText(item.warnings)}</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px; color: #7f8c8d;">Belum ada data siswa umum</td></tr>';
+                }
+            } catch (error) {
+                console.error('Failed to load Melon data:', error);
+            }
+        }
+
+        async function loadKangenData() {
+            try {
+                const response = await fetch(`${API_BASE}/kangen/data`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                const tbody = document.getElementById('kangenTableBody');
+                
+                if (data.data && data.data.length > 0) {
+                    tbody.innerHTML = data.data.map(item => `
+                        <tr>
+                            <td>${new Date(item.timestamp).toLocaleString('id-ID')}</td>
+                            <td>${item.user_id}</td>
+                            <td>${item.weight} kg</td>
+                            <td>${item.height} cm</td>
+                            <td>${item.age}</td>
+                            <td>${item.sport}</td>
+                            <td>${item.bmi}</td>
+                            <td>${item.bmi_category}</td>
+                            <td><span class="status-badge ${getBMIStatus(item.bmi_status)}">${item.bmi_status}</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 40px; color: #7f8c8d;">Belum ada data atlet siswa</td></tr>';
+                }
+            } catch (error) {
+                console.error('Failed to load Kangen data:', error);
+            }
+        }
+
+        function getHealthStatus(warnings) {
+            if (!warnings || warnings === '') return 'status-sehat';
+            if (warnings.includes('Kritis')) return 'status-kritis';
+            return 'status-perhatian';
+        }
+
+        function getHealthStatusText(warnings) {
+            if (!warnings || warnings === '') return 'Sehat';
+            if (warnings.includes('Kritis')) return 'Kritis';
+            return 'Perlu Perhatian';
+        }
+
+        function getBMIStatus(status) {
+            if (status === 'Performa Optimal') return 'status-sehat';
+            if (status.includes('Risiko')) return 'status-kritis';
+            return 'status-perhatian';
+        }
+
+        async function downloadExcel() {
+            try {
+                const response = await fetch(`${API_BASE}/export/download`, {
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Student_Health_Data_${new Date().toISOString().split('T')[0]}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    showAlert('exportAlert', 'File Excel berhasil didownload!', 'success');
+                } else {
+                    showAlert('exportAlert', 'Gagal mendownload file Excel', 'error');
+                }
+            } catch (error) {
+                showAlert('exportAlert', 'Terjadi kesalahan saat mendownload', 'error');
+            }
+        }
+
+        async function autoExport() {
+            try {
+                const response = await fetch(`${API_BASE}/export/auto`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('exportAlert', `File berhasil diekspor: ${data.filename}`, 'success');
+                } else {
+                    showAlert('exportAlert', data.error || 'Gagal mengekspor file', 'error');
+                }
+            } catch (error) {
+                showAlert('exportAlert', 'Terjadi kesalahan saat mengekspor', 'error');
+            }
+        }
+
+        function refreshData() {
+            loadStatistics();
+            loadMelonData();
+            loadKangenData();
+            showAlert('exportAlert', 'Data berhasil direfresh!', 'success');
+        }
+
+        function showMelonData() {
+            document.getElementById('melonDataTable').classList.remove('hidden');
+            document.getElementById('kangenDataTable').classList.add('hidden');
+            document.getElementById('melonDataBtn').style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+            document.getElementById('melonDataBtn').style.color = 'white';
+            document.getElementById('kangenDataBtn').style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+            document.getElementById('kangenDataBtn').style.color = 'white';
+            loadMelonData();
+        }
+
+        function showKangenData() {
+            document.getElementById('melonDataTable').classList.add('hidden');
+            document.getElementById('kangenDataTable').classList.remove('hidden');
+            document.getElementById('kangenDataBtn').style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+            document.getElementById('kangenDataBtn').style.color = 'white';
+            document.getElementById('melonDataBtn').style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+            document.getElementById('melonDataBtn').style.color = 'white';
+            loadKangenData();
+        }
+
+        function showAlert(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function showLoginScreen() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('melonPinterDashboard').classList.add('hidden');
+            document.getElementById('kangenAziDashboard').classList.add('hidden');
+            document.getElementById('recapitulationDashboard').classList.add('hidden');
+        }
+
+        function showMainMenu() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('melonPinterDashboard').classList.add('hidden');
+            document.getElementById('kangenAziDashboard').classList.add('hidden');
+            document.getElementById('recapitulationDashboard').classList.add('hidden');
+            
+            if (currentUser) {
+                document.getElementById('welcomeUser').textContent = currentUser.username;
+            }
+            
+            loadStatistics();
+        }
+
+        function showMelonPinter() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('melonPinterDashboard').classList.remove('hidden');
+            document.getElementById('kangenAziDashboard').classList.add('hidden');
+            document.getElementById('recapitulationDashboard').classList.add('hidden');
+        }
+
+        function showKangenAzi() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('melonPinterDashboard').classList.add('hidden');
+            document.getElementById('kangenAziDashboard').classList.remove('hidden');
+            document.getElementById('recapitulationDashboard').classList.add('hidden');
+            
+            // Hide BMI result when showing form
+            document.getElementById('bmiResult').classList.add('hidden');
+        }
+
+        function showRecapitulation() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('melonPinterDashboard').classList.add('hidden');
+            document.getElementById('kangenAziDashboard').classList.add('hidden');
+            document.getElementById('recapitulationDashboard').classList.remove('hidden');
+            
+            // Default to showing Melon data
+            showMelonData();
+        }
+    </script>
+</body>
+</html>
+
